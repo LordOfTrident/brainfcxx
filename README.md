@@ -11,7 +11,8 @@ Run `compile` as bash in the terminal:
 ```sh
 bash compile
 ```
-this will generate an executable in bin folder, run it:
+If you dont want it to check for g++, you can use the `-nc` parameter.
+This will generate an executable in bin folder, run it:
 ```sh
 ./bin/bf
 ```

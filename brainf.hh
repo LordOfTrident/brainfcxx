@@ -120,7 +120,7 @@ namespace BF {
 				ErrorMsg = "Loop opened at " + std::to_string(Loops[Loops.size() - 1]) + " not closed";
 
 				return BF_INTERPRET_ERROR;
-        	};
+			};
         	
 			return BF_INTERPRET_OK;
 		};
