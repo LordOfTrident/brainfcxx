@@ -14,15 +14,16 @@ bash compile
 If you dont want it to check for g++, you can use the `-nc` parameter.
 This will generate an executable in bin folder, run it:
 ```sh
-./bin/bf
+./bin/app
 ```
 #### Windows
 First make sure you have g++ installed (Command Prompt will not recognize the `g++` command if you dont) and run the following commands:
 ```bat
 mkdir bin
-g++ -g shell/main.cc -o bin/bf -O3 -s -Wall -std=c++17;
+g++ -g shell/main.cc -o bin/app -O3 -s -Wall -std=c++17;
 ```
 then run it:
 ```bat
-bin/bf
+cd bin
+app
 ```
