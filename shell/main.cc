@@ -18,9 +18,9 @@ std::string ReadFile(std::string p_fname) {
 
 		while (getline(fhnd, fln))
 			fstr += fln + '\n';
+		
+		fhnd.close();
 	};
-
-	fhnd.close();
 
 	return fstr;
 };
@@ -30,23 +30,71 @@ bool running = false;
 int main(int argc, char* argv[]) {
 	BF::BF_Interpreter BFi;
 
-	if (argc > 1) {
-		if (not FileExists(argv[1])) {
-			std::cout << (std::string)"File '" + argv[1] + "' not found" << std::endl;
+	for (ui8 i = 1; i < argc; ++ i) {
+		std::string arg = argv[i];
+		if (arg[0] == '-') {
+			if (arg == "-cellcount") {
+				++ i;
+				arg = argv[i];
+
+				if (i >= argc)
+					continue;
+
+				try {
+					BFi.SetCellCount(std::stoi(arg));	
+				} catch (...) {
+					std::cout << "E: Invalid cell count specified" << std::endl;
+
+					return 0;
+				};
+			} else if (arg == "-bytesize") {
+				++ i;
+				arg = argv[i];
+
+				if (i >= argc)
+					continue;
+
+				try {
+					ui8 ByteCount = std::stoi(arg);
+					
+					if (ByteCount > 4 or ByteCount == 3)
+						std::cout << "W: Byte size can only be 1, 2 or 4, if something else is specified its set to 4" << std::endl;
+						
+					BFi.SetByteCount(ByteCount);
+				} catch (...) {
+					std::cout << "E: Invalid byte size specified" << std::endl;
+
+					return 0;
+				};
+			} else {
+				std::cout << "E: Invalid parameter '" + arg + "'" << std::endl;
+
+				return 0;
+			};
+
+			continue;
+		};
+		
+		if (not FileExists(arg)) {
+			std::cout << (std::string)"E: File '" + arg + "' not found" << std::endl;
 		
 			return 0;
 		};
 
-		if (BFi.Interpret(ReadFile(argv[1])) != BF_INTERPRET_OK) {
-			std::cout << BFi.GetErrorMsg() << std::endl;
+		try {
+			BFi.Interpret(ReadFile(arg));
+			
+			return BFi.GetCurrentCell();
+		} catch (std::exception &Error) {
+			std::cout << "\nE:" << Error.what() << std::endl;
 
-			return 0;
+			return 1;
 		};
 
 		return BFi.GetCurrentCell();
 	};
 
-	std::cout << "Brainfuck Shell\nBy LordOfTrident." << std::endl;
+	std::cout << "Brainfuck Shell\nBy LordOfTrident.\nParameters:\n  -cellcount <size>\n  -bytesize <size>\n" << std::endl;
 
 	running = true;
 	while (running) {
@@ -61,12 +109,12 @@ int main(int argc, char* argv[]) {
 			continue;
 		};
 
-		if (BFi.Interpret(in) != BF_INTERPRET_OK) {
-			std::cout << BFi.GetErrorMsg() << std::endl;
-
-			continue;
+		try {
+			BFi.Interpret(in);
+		} catch (std::exception &Error) {
+			std::cout << "\nE: " << Error.what() << std::endl;
 		};
-
+		
 		std::cout << std::endl;
 	};
 

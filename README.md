@@ -1,9 +1,16 @@
 # Brainfuck
-Brainfuck interpreter written in C++
+A simple Brainfuck interpreter written in C++
 
 <img src="pic/logo.png"/>
 
 Brainfuck is a programming language created in 1993 by Urban Müller, you can read more on it here https://en.wikipedia.org/wiki/Brainfuck
+
+## Shell Usage
+By default, the program has access to 256 cells and each cell takes up 1 byte, but you can change both with parameters:
+- `-cellcount n`: Changes the amount of cells to `n`
+- `-bytesize n`: Changes the amount of bytes one cell takes up to `n`
+
+any other parameter will be taken as an input file.
 
 ## Compiling and running the shell
 #### Linux
