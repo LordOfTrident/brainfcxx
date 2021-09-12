@@ -3,13 +3,13 @@
 
 #include "../brainf.hh"
 
-bool FileExists(std::string p_name) {
+bool FileExists(const std::string& p_name) {
 	std::ifstream fhnd(p_name);
     
 	return fhnd.good();
 };
 
-std::string ReadFile(std::string p_fname) {
+std::string ReadFile(const std::string& p_fname) {
 	std::string fstr = "";
 	std::ifstream fhnd(p_fname);
 
@@ -27,11 +27,12 @@ std::string ReadFile(std::string p_fname) {
 
 bool running = false;
 
-int main(int argc, char* argv[]) {
+int main(int argc, const char* argv[]) {
 	BF::BF_Interpreter BFi;
 
 	for (ui8 i = 1; i < argc; ++ i) {
 		std::string arg = argv[i];
+		
 		if (arg[0] == '-') {
 			if (arg == "-cellcount") {
 				++ i;

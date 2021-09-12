@@ -1,7 +1,18 @@
-# Brainfuck
-A simple Brainfuck interpreter written in C++
-
-<img src="pic/logo.png"/>
+<h1 align="center">Brainfuck</h2>
+<p align="center">A simple Brainfuck interpreter written in C++</p>
+<p align="center">
+	<a href="./LICENSE">
+		<img alt="License" src="https://img.shields.io/badge/license-GNU-blue?color=7aca00"/>
+	</a>
+	<a href="https://github.com/LordsTrident/cpp-brainfuck/issues">
+		<img alt="Issues" src="https://img.shields.io/github/issues/LordsTrident/cpp-brainfuck?color=0088ff"/>
+	</a>
+	<a href="https://github.com/LordsTrident/cpp-brainfuck/pulls">
+		<img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/LordsTrident/cpp-brainfuck?color=0088ff"/>
+	</a>
+	<br><br><br>
+	<img src="pic/logo.png"/>
+</p>
 
 Brainfuck is a programming language created in 1993 by Urban Müller, you can read more on it here https://en.wikipedia.org/wiki/Brainfuck
 

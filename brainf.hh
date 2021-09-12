@@ -24,7 +24,7 @@ namespace BF {
 			ByteCount(1)
 		{};
 
-		void Interpret(std::string p_Code) {
+		void Interpret(const std::string& p_Code) {
 			CellPointer = 0;
 			Cells.resize(CellCount * ByteCount, 0);
 			Loops = {};
@@ -168,11 +168,11 @@ namespace BF {
 			return GetCurrentValue();
 		};
 
-		void SetCellCount(ui32 p_Count) {
+		void SetCellCount(const ui32& p_Count) {
 			CellCount = p_Count;
 		};
 
-		void SetByteCount(ui8 p_Count) {
+		void SetByteCount(const ui8& p_Count) {
 			switch (p_Count) {
 				case 1: case 2: case 4: {
 					ByteCount = p_Count;
@@ -219,7 +219,7 @@ namespace BF {
 			};
 		};
 
-		void SetCurrentValue(ui32 p_Value) {
+		void SetCurrentValue(const ui32& p_Value) {
 			ui32 Pos = CellPointer * ByteCount;
 			
 			switch (ByteCount) {
