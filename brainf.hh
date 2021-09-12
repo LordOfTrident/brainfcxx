@@ -219,7 +219,7 @@ namespace BF {
 			};
 		};
 
-		void SetCurrentValue(const ui32& p_Value) {
+		void SetCurrentValue(ui32 p_Value) {
 			ui32 Pos = CellPointer * ByteCount;
 			
 			switch (ByteCount) {
