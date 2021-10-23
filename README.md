@@ -1,47 +1,37 @@
-<h1 align="center">Brainfuck</h2>
-<p align="center">A simple Brainfuck interpreter written in C++</p>
+<p align="center">
+	<img width="100px" src="assets/logo.png"/>
+	<h1 align="center">brainfcxx</h2>
+	<p align="center">A brainf+ck interpreter written in C++</p>
+</p>
 <p align="center">
 	<a href="./LICENSE">
-		<img alt="License" src="https://img.shields.io/badge/license-GNU-blue?color=7aca00"/>
+		<img alt="License" src="https://img.shields.io/badge/license-GPL-blue?color=7aca00"/>
 	</a>
-	<a href="https://github.com/LordsTrident/cpp-brainfuck/issues">
-		<img alt="Issues" src="https://img.shields.io/github/issues/LordsTrident/cpp-brainfuck?color=0088ff"/>
+	<a href="https://github.com/LordOfTrident/brainfcxx/issues">
+		<img alt="Issues" src="https://img.shields.io/github/issues/LordOfTrident/brainfcxx?color=0088ff"/>
 	</a>
-	<a href="https://github.com/LordsTrident/cpp-brainfuck/pulls">
-		<img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/LordsTrident/cpp-brainfuck?color=0088ff"/>
+	<a href="https://github.com/LordOfTrident/brainfcxx/pulls">
+		<img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/LordOfTrident/brainfcxx?color=0088ff"/>
 	</a>
 	<br><br><br>
-	<img src="pic/logo.png"/>
 </p>
 
 Brainfuck is a programming language created in 1993 by Urban Müller, you can read more on it here https://en.wikipedia.org/wiki/Brainfuck
 
-## Shell Usage
-By default, the program has access to 256 cells and each cell takes up 1 byte, but you can change both with parameters:
-- `-cellcount n`: Changes the amount of cells to `n`
-- `-bytesize n`: Changes the amount of bytes one cell takes up to `n`
+## Features
+- Changable cells
+- Changable cell size
+- Nested loops support
+- Interprets all files in parameters
+- Last cells value used for the exitcode
+- A REPL when no files were provided
 
-any other parameter will be taken as an input file.
+## Usage
+The entire interpreter is in a single header file `brainfcxx.hh`. You can use it in your project if you want. Use the `-h` or `--help` parameters to show the usage. If you dont provide any files in the command line parameters, the REPL start automatically.
 
-## Compiling and running the shell
-#### Linux
-Run `compile` as bash in the terminal:
-```sh
-bash compile
-```
-If you dont want it to check for g++, you can use the `-nc` parameter.
-This will generate an executable in bin folder, run it:
-```sh
-./bin/app
-```
-#### Windows
-First make sure you have g++ installed (Command Prompt will not recognize the `g++` command if you dont) and run the following commands:
-```bat
-mkdir bin
-g++ -g shell/main.cc -o bin/app -O3 -s -Wall -std=c++17;
-```
-then run it:
-```bat
-cd bin
-app
-```
+#### Compiling
+To compile the interpreter, run `make`, which will create a binary in the `bin/` folder.
+
+#### Installing
+(This step is Linux-only)
+To install the interpreter, run `make install` and then you can use `bfcxx` anywhere.
