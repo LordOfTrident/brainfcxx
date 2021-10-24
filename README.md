@@ -19,7 +19,7 @@
 Brainfuck is a programming language created in 1993 by Urban Müller, you can read more on it here https://en.wikipedia.org/wiki/Brainfuck
 
 ## Features
-- Changable cells
+- Changable cells count
 - Changable cell size
 - Nested loops support
 - Interprets all files in parameters
