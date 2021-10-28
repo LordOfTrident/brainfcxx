@@ -24,7 +24,7 @@ BF::Interpreter &BF::App::GetBFi() {
 	return m_bfi;
 };
 
-ui8 BF::App::GetExitcode() {
+ui8 BF::App::GetExitcode() const {
 	return m_exitCode;
 };
 
@@ -271,7 +271,7 @@ void BF::App::InterpretFiles(const std::vector <std::string> &p_files) {
 };
 
 // private
-bool BF::App::FileExists(const std::string &p_name) {
+bool BF::App::FileExists(const std::string &p_name) const {
 	std::ifstream fileHandle(p_name);
 
 	return fileHandle.good();

@@ -11,7 +11,7 @@ Utils::Input::Input() {
 
 Utils::Input::~Input() {};
 
-std::string Utils::Input::GetInput(std::string p_prompt) {
+std::string Utils::Input::GetInput(std::string p_prompt) const {
 	std::string input;
 
 	Read(input, p_prompt);
@@ -22,7 +22,7 @@ std::string Utils::Input::GetInput(std::string p_prompt) {
 void Utils::Input::GetInput(
 	std::string &p_str,
 	std::string p_prompt
-) {
+) const {
 	Read(p_str, p_prompt);
 };
 
@@ -30,7 +30,7 @@ void Utils::Input::GetInput(
 void Utils::Input::Read(
 	std::string &p_str,
 	const std::string &p_prompt
-) {
+) const {
 #ifdef __UTILS_USING_READLINE__
 	char *rawInput = readline::readline(p_prompt.c_str());
 

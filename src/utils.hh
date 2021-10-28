@@ -20,17 +20,17 @@ namespace Utils {
 		Input();
 		~Input();
 
-		std::string GetInput(std::string p_prompt = "");
+		std::string GetInput(std::string p_prompt = "") const;
 
 		void GetInput(
 			std::string &p_str,
 			std::string p_prompt = ""
-		);
+		) const;
 
 	private:
 		void Read(
 			std::string &p_str,
 			const std::string &p_prompt
-		);
+		) const;
 	}; // class Input
 }; // namespace Utils

@@ -34,8 +34,9 @@ UTILS_USE_GNU_READLINE = false
 
 ifeq (${OS}, Windows_NT)
 	CREATE_BIN_DIRECTORY = if not exist "./bin" mkdir ${D_BIN}
-	CLEAN = del ./bin/app
+	CLEAN = del ./bin/app.exe
 	INSTALL = echo Install is Linux-only
+	BINARY = ./bin/app.exe
 else
 	UNAME_S := $(shell uname -s)
     ifeq (${UNAME_S}, Linux)
@@ -52,6 +53,7 @@ else
 		echo Installing... &&\
 		cp ./bin/app /usr/bin/${N_APP} &&\
 		echo Installed succesfully
+	BINARY = ./bin/app
 endif
 
 compile: ${F_ALL}
@@ -62,7 +64,7 @@ compile: ${F_ALL}
 	@${CXX} ${F_SRC} ${CXX_FLAGS}
 	@echo Compiled successfully
 
-install: ./bin/app
+install: ${BINARY}
 	@${INSTALL}
 
 clean:

@@ -12,7 +12,7 @@
 
 #define APP_VERSION_MAJOR 1
 #define APP_VERSION_MINOR 2
-#define APP_VERSION_PATCH 0
+#define APP_VERSION_PATCH 1
 
 namespace BF {
 	class App {
@@ -41,14 +41,14 @@ namespace BF {
 
 		BF::Interpreter &GetBFi();
 
-		ui8 GetExitcode();
+		ui8 GetExitcode() const;
 
 		void Start(const ui8 p_argc, const char* p_argv[]);
 		void Repl(); // Read Eval Print Loop
 		void InterpretFiles(const std::vector <std::string> &p_files);
 
 	private:
-		bool FileExists(const std::string &p_name);
+		bool FileExists(const std::string &p_name) const;
 		std::string ReadFile(const std::string& p_fileName);
 
 		bool ReadParameters(

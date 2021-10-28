@@ -3,7 +3,7 @@
  *  Version 1.2.0
  *  Github: https://github.com/LordOfTrident/cpp-brainfuck
  *
- *  define BF_DONT_USE_EXCEPTION symbol for the library to
+ *  define BF_DONT_USE_EXCEPTIONS symbol for the library to
  *  use return codes instead of exceptions
  *
  *  define BF_DONT_USE_BITSHIFT for the library to use
@@ -21,23 +21,16 @@
 #pragma once
 
 #include <iostream> // std::cout, std::cerr, std::cin, noskipws
-#include <string>   // std::string
-#include <vector>   // std::vector
-#include <cstdint>  // std::int8_t, std::int16_t, std::int32_t, std::int64_t,
-                    // std::uint8_t, std::uint16_t, std::uint32_t, std::uint64_t,
-#include <cstddef>  // size_t
-#include <climits>  // ULONG_MAX
+#include <string> // std::string
+#include <vector> // std::vector
+#include <cstdint> // std::int8_t, std::int16_t, std::int32_t, std::int64_t,
+                   // std::uint8_t, std::uint16_t, std::uint32_t, std::uint64_t,
+#include <cstddef> // std::size_t
+#include <climits> // ULONG_MAX
 
 #define BF_VERSION_MAJOR 1
 #define BF_VERSION_MINOR 4
-#define BF_VERSION_PATCH 1
-
-#ifdef BF_DONT_USE_EXCEPTION
-#	define BF_OK 0
-#	define BF_ERROR -1
-#	define BF_ERROR_MISSINGCLOSER -2
-#	define BF_ERROR_MISSINGOPENER -3
-#endif // BF_DONT_USE_EXCEPTION
+#define BF_VERSION_PATCH 2
 
 namespace BF {
 	typedef std::int8_t  i8;
@@ -52,7 +45,7 @@ namespace BF {
 
 	typedef std::size_t word;
 
-#ifndef BF_DONT_USE_EXCEPTION
+#ifndef BF_DONT_USE_EXCEPTIONS
 	// Runtime error classes
 	class Exception {
 	public:
@@ -132,7 +125,7 @@ namespace BF {
 		word m_data;
 	}; // class InvalidDataException
 
-#endif // not BF_DONT_USE_EXCEPTION
+#endif // not BF_DONT_USE_EXCEPTIONS
 	class Interpreter {
 	private:
 #ifdef BF_DONT_USE_BITSHIFT
@@ -159,10 +152,18 @@ namespace BF {
 
 	public:
 		// Constants for setting the cell size and cell count
-		static const ui8 CellSizeUi8 = 1;
-		static const ui8 CellSizeUi16 = 2;
-		static const ui8 CellSizeUi32 = 4;
-		static const ui16 CellCountDefault = 256;
+		static constexpr const ui8 CellSizeUi8 = 1;
+		static constexpr const ui8 CellSizeUi16 = 2;
+		static constexpr const ui8 CellSizeUi32 = 4;
+		static constexpr const ui16 CellCountDefault = 256;
+
+#ifdef BF_DONT_USE_EXCEPTIONS
+		// Constants for exitcodes
+		static constexpr const i8 Ok = 0;
+		static constexpr const i8 Error = -1;
+		static constexpr const i8 ErrorMissingCloser = -2;
+		static constexpr const i8 ErrorMissingOpener = -4;
+#endif // BF_DONT_USE_EXCEPTIONS
 
 		Interpreter(
 			word p_cellCount = CellCountDefault,
@@ -181,11 +182,22 @@ namespace BF {
 #endif // BF_DONT_USE_BITSHIFT
 		{};
 
-#ifdef BF_DONT_USE_EXCEPTION
+
+#ifdef INI_DONT_USE_EXCEPTIONS
+		const std::string &GetErrorMessage() const {
+			return m_errorMessage;
+		};
+
+		word GetErrorLine() const {
+			return m_line;
+		};
+#endif // INI_DONT_USE_EXCEPTIONS
+
+#ifdef BF_DONT_USE_EXCEPTIONS
 		i8 Interpret(const std::string &p_code)
-#else // not BF_DONT_USE_EXCEPTION
+#else // not BF_DONT_USE_EXCEPTIONS
 		void Interpret(const std::string &p_code) {
-#endif // BF_DONT_USE_EXCEPTION
+#endif // BF_DONT_USE_EXCEPTIONS
 			m_cellPointer = 0;
 
 			std::vector <word> loops = {};      // For storing the loop indexes
@@ -296,11 +308,14 @@ namespace BF {
 								};
 
 								if (not found)
-#ifdef BF_DONT_USE_EXCEPTION
-									return BF_ERROR_MISSINGCLOSER;
-#else // not BF_DONT_USE_EXCEPTION
+#ifdef BF_DONT_USE_EXCEPTIONS
+									m_errorMessage = "Opened loop not closed";
+									m_line = line;
+
+									return ErrorMissingCloser;
+#else // not BF_DONT_USE_EXCEPTIONS
 									throw RuntimeException("Opened loop not closed", line, temp + 1);
-#endif // BF_DONT_USE_EXCEPTION
+#endif // BF_DONT_USE_EXCEPTIONS
 
 								break;
 							};
@@ -313,11 +328,14 @@ namespace BF {
 
 				case ']':
 					if (loops.empty())
-#ifdef BF_DONT_USE_EXCEPTION
-						return BF_ERROR_MISSINGOPENER;
-#else // not BF_DONT_USE_EXCEPTION
+#ifdef BF_DONT_USE_EXCEPTIONS
+						m_errorMessage = "Loop closer without an opener";
+						m_line = line;
+
+						return ErrorMissingOpener;
+#else // not BF_DONT_USE_EXCEPTIONS
 						throw RuntimeException("Loop closer without an opener", line, i + 1);
-#endif // BF_DONT_USE_EXCEPTION
+#endif // BF_DONT_USE_EXCEPTIONS
 
 					// The loop is exited
 					if (not GetCurrentCell()) {
@@ -345,11 +363,11 @@ namespace BF {
 #endif // BF_DONT_USE_BITSHIFT
 		};
 
-#ifdef BF_DONT_USE_EXCEPTION
+#ifdef BF_DONT_USE_EXCEPTIONS
 		ui64 GetCurrentCell() const {
-#else // not BF_DONT_USE_EXCEPTION
+#else // not BF_DONT_USE_EXCEPTIONS
 		ui32 GetCurrentCell() const {
-#endif // BF_DONT_USE_EXCEPTION
+#endif // BF_DONT_USE_EXCEPTIONS
 #ifdef BF_DONT_USE_BITSHIFT
 			switch (m_cellSize) {
 			case CellSizeUi8: return m_cells[m_cellPointer].m_ui8;
@@ -378,11 +396,13 @@ namespace BF {
 			};
 #endif // BF_DONT_USE_BITSHIFT
 
-#ifdef BF_DONT_USE_EXCEPTION
-			return BF_ERROR;
-#else // not BF_DONT_USE_EXCEPTION
+#ifdef BF_DONT_USE_EXCEPTIONS
+			m_errorMessage = "Invalid cell size";
+
+			return Error;
+#else // not BF_DONT_USE_EXCEPTIONS
 			throw InvalidDataException("Invalid cell size", m_cellSize);
-#endif // BF_DONT_USE_EXCEPTION
+#endif // BF_DONT_USE_EXCEPTIONS
 		};
 
 		void SetCellCount(word p_count) {
@@ -501,5 +521,10 @@ namespace BF {
 		word m_cellPointer;
 
 		std::vector <CellType> m_cells;
+
+#ifdef BF_DONT_USE_EXCEPTIONS
+		std::string m_errorMessage;
+		word m_line;
+#endif // BF_DONT_USE_EXCEPTIONS
 	}; // class Interpreter
 }; // namespace BF
