@@ -31,8 +31,10 @@ ui8 BF::App::GetExitcode() {
 void BF::App::Start(const ui8 p_argc, const char* p_argv[]) {
 	std::vector <std::string> files = {};
 
+	bool startRepl = true;
+
 	try {
-		ReadParameters(p_argc, p_argv, files);
+		startRepl = ReadParameters(p_argc, p_argv, files);
 	} catch (const BF::Exception &error) {
 		std::cerr
 			<< ERROR
@@ -40,7 +42,7 @@ void BF::App::Start(const ui8 p_argc, const char* p_argv[]) {
 			<< std::endl;
 	};
 
-	if (files.empty()) {
+	if (files.empty() and startRepl) {
 		Repl();
 
 		return;
@@ -49,11 +51,13 @@ void BF::App::Start(const ui8 p_argc, const char* p_argv[]) {
 	InterpretFiles(files);
 };
 
-void BF::App::ReadParameters(
+bool BF::App::ReadParameters(
 	const ui8 p_argc,
 	const char* p_argv[],
 	std::vector <std::string> &p_files
 ) {
+	bool startRepl = true;
+
 	for (ui8 i = 1; i < p_argc; ++ i) {
 		std::string arg = p_argv[i];
 
@@ -63,22 +67,32 @@ void BF::App::ReadParameters(
 
 				if (arg == "h" or arg == "-help") {
 					std::cout
-						<< "\nUsage: app [Options]"
+						<< "Usage: app [Options]"
 						<< "Options:\n"
 						<< "    -h, --help      Show the usage\n"
 						<< "    -v  --version   Show the current version\n"
 						<< "    -c, --cellcount Set the amount of cells\n"
 						<< "    -s, --cellsize  Set the size of a cell in bytes (1, 2 or 4)"
 						<< std::endl;
+
+					startRepl = false;
 				} else if (arg == "v" or arg == "-version") {
 					std::cout
-						<< "Version "
+						<< "Brainfcxx version "
 						<< BF_VERSION_MAJOR
 						<< "."
 						<< BF_VERSION_MINOR
 						<< "."
 						<< BF_VERSION_PATCH
+						<< "\nApp version "
+						<< APP_VERSION_MAJOR
+						<< "."
+						<< APP_VERSION_MINOR
+						<< "."
+						<< APP_VERSION_PATCH
 						<< std::endl;
+
+					startRepl = false;
 				} else if (arg == "c" or arg == "-cellcount") {
 					if (++ i >= p_argc) {
 						m_exitCode = ParamNotFound;
@@ -131,24 +145,26 @@ void BF::App::ReadParameters(
 		default: p_files.push_back(arg); break;
 		};
 	};
+
+	return startRepl;
 };
 
 void BF::App::Repl() {
 	std::cout
-		<< "Brainfuck REPL v"
-		<< BF_VERSION_MAJOR
+		<< "Brainfcxx REPL v"
+		<< APP_VERSION_MAJOR
 		<< "."
-		<< BF_VERSION_MINOR
+		<< APP_VERSION_MINOR
 		<< "."
-		<< BF_VERSION_PATCH
-		<< "\nhelp: type in help\n";
+		<< APP_VERSION_PATCH
+		<< ", type in help to see the commands\n";
+
+	Utils::Input inputHandle;
 
 	bool running = true;
 	while (running) {
 		std::string input;
-
-		std::cout << "> ";
-		std::getline(std::cin, input);
+		inputHandle.GetInput(input, "> ");
 
 		// Control commands
 		if (input == "help") {
@@ -157,7 +173,8 @@ void BF::App::Repl() {
 				<< "  help  Show the available commands\n"
 				<< "  exit  Exit the shell\n"
 				<< "  clear Clear the cells (set their values to 0)\n\n"
-				<< "For usage help, use the -h or --help parameter.";
+				<< "For usage help, use the -h or --help parameter."
+				<< std::endl;
 		} else if (input == "exit") {
 			running = false;
 
@@ -167,7 +184,7 @@ void BF::App::Repl() {
 		} else if (input == "clear") {
 			m_bfi.ClearCells();
 
-			std::cout << "Cells cleared";
+			std::cout << "Cells cleared" << std::endl;
 		} else { // Else interpret as brainf code
 			try {
 				m_bfi.Interpret(input);
@@ -176,7 +193,8 @@ void BF::App::Repl() {
 					<< ERROR
 					<< "At line " << error.Line()
 					<< ", position " << error.Position()
-					<< ":\n  " << error.What();
+					<< ":\n  " << error.What()
+					<< std::endl;
 
 				m_exitCode = RuntimeError;
 			} catch (const BF::InvalidDataException &error) {
@@ -185,20 +203,21 @@ void BF::App::Repl() {
 					<< error.What()
 					<< "\nData value:\n"
 					<< error.Data()
-					<< "\n";
+					<< std::endl;
 
 				m_exitCode = InvalidDataError;
 			} catch (const BF::Exception &error) {
 				std::cerr
 					<< ERROR
 					<< error.What()
-					<< "\n";
+					<< std::endl;
 
 				m_exitCode = GenericError;
 			};
 		};
 
-		std::cout << std::endl;
+		if (input.find('.') != std::string::npos)
+			std::cout << std::endl;
 	};
 };
 

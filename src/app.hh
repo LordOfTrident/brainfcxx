@@ -1,22 +1,18 @@
 #pragma once
 
+#include <config.inc>
+
 #include <components.inc>
+#include <types.hh>
+#include <utils.hh>
 
 // Console error/warning messages
 #define ERROR "\nError:\n  "
 #define WARN  "\nWarning:\n  "
 
-using BF::ui8;
-using BF::ui16;
-using BF::ui32;
-using BF::ui64;
-
-using BF::i8;
-using BF::i16;
-using BF::i32;
-using BF::i64;
-
-using BF::word;
+#define APP_VERSION_MAJOR 1
+#define APP_VERSION_MINOR 2
+#define APP_VERSION_PATCH 0
 
 namespace BF {
 	class App {
@@ -55,7 +51,7 @@ namespace BF {
 		bool FileExists(const std::string &p_name);
 		std::string ReadFile(const std::string& p_fileName);
 
-		void ReadParameters(
+		bool ReadParameters(
 			const ui8 p_argc,
 			const char* p_argv[],
 			std::vector <std::string> &p_files

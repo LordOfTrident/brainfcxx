@@ -30,7 +30,6 @@ Brainfuck is a programming language created in 1993 by Urban Müller, you can re
 The entire interpreter is in a single header file `brainfcxx.hh`. You can use it in your project if you want. Use the `-h` or `--help` parameters to show the usage. If you dont provide any files in the command line parameters, the REPL start automatically.
 
 ## Make
-Use `make all` to see all the make targets.
 
 ### Compiling
 Run `make` or `make compile` which will create a binary in the `bin/` folder.
@@ -40,3 +39,5 @@ Run `make` or `make compile` which will create a binary in the `bin/` folder.
 ### Installing
 (This step is Linux-only)
 To install the interpreter, run `make install` and then you can use `bfcxx` anywhere.
+
+> Use `make all` to see all the make targets.

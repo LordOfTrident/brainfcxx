@@ -1,53 +1,76 @@
-BinName = app
-SourceFolder = ./src/
-BinFolder = ./bin/
-Include = ./
+# Names
+N_APP = bfcxx
 
-Extension = .cc
-ExtensionHeader = .hh
-ExtensionInclude = .inc
+# Files
+F_SRC = \
+	src/main.cc\
+	src/app.cc\
+	src/utils.cc
 
-SourceFiles = ${SourceFolder}main${Extension} ${SourceFolder}app${Extension}
-HeaderFiles = ${Include}brainfcxx${ExtensionHeader} ${SourceFolder}app${ExtensionHeader} ${SourceFolder}components${ExtensionInclude}
-AllFiles = ${SourceFIles} ${HeaderFiles}
+F_HEADER = \
+	brainfcxx.hh\
+	src/app.hh\
+	src/utils.hh\
+	src/types.hh\
+	src/components.inc\
+	src/platform.inc\
+	src/config.inc
 
-Compiler = g++
-CxxVersion = c++17
+F_ALL = ${F_SRC} ${F_HEADER}
 
-ifeq (${OS},Windows_NT)
-	Print = echo
-	Msg_CreatingBinFolder = "* CMPL: Creating ${BinFolder}\n"
-	Msg_Compiling = "* CMPL: Compiling the shell...\n"
-	Msg_Compiled = "* CMPL: Compiled successfully\n"
+# Compiler related
+CXX = g++
+CXX_VER = c++17
+CXX_FLAGS = \
+	-O3\
+	-Wall\
+	-std=${CXX_VER}\
+	-I./src\
+	-I./\
+	-o ./bin/app
 
-	Msg_Copying = "* INST: Installation is for linux only, sorry :("
-	Msg_Copied = "* INST: Copied successfully\n"
+# Config
+UTILS_USE_GNU_READLINE = false
 
-	MakeBinFolder = if not exist "${BinFolder}" mkdir ${BinFolder}
-	CompilerPath = ./
+ifeq (${OS}, Windows_NT)
+	CREATE_BIN_DIRECTORY = if not exist "./bin" mkdir ${D_BIN}
+	CLEAN = del ./bin/app
+	INSTALL = echo Install is Linux-only
 else
-	Print = printf
-	Msg_CreatingBinFolder = "\e[0;36m* CMPL: \e[0;33mCreating ${BinFolder}\n\e[0m"
-	Msg_Compiling = "\e[0;36m* CMPL: \e[0;33mCompiling the shell...\n\e[0m"
-	Msg_Compiled = "\e[0;36m* CMPL: \e[0;32mCompiled successfully\n"
+	UNAME_S := $(shell uname -s)
+    ifeq (${UNAME_S}, Linux)
+    	UTILS_USE_GNU_READLINE = true
+    endif
 
-	Msg_Copying = "\e[0;36m* INST: \e[0;33mCopying ${BinFolder}${BinName} to /usr/bin as bfcxx...\n\e[0m"
-	Msg_Copied = "\e[0;36m* INST: \e[0;32mCopied successfully\n"
+    ifeq (${UTILS_USE_GNU_READLINE}, true)
+    	CXX_FLAGS += -lreadline
+    endif
 
-	MakeBinFolder = mkdir -p ${BinFolder}
-	CompilerPath = /usr/bin/${Compiler}
+	CREATE_BIN_DIRECTORY = mkdir -p ./bin
+	CLEAN = rm ./bin/app && rm /usr/bin/${N_APP}
+	INSTALL = \
+		echo Installing... &&\
+		cp ./bin/app /usr/bin/${N_APP} &&\
+		echo Installed succesfully
 endif
 
-compile: ${AllFiles} ${CompilerPath}
-	@${Print} ${Msg_CreatingBinFolder}
-	@${MakeBinFolder}
+compile: ${F_ALL}
+	@${CREATE_BIN_DIRECTORY}
+	@echo Created ./bin/
 
-	@${Print} ${Msg_Compiling}
-	@${Compiler} -I${Include} -I${SourceFolder} ${SourceFiles} -o ${BinFolder}app -O3 -Wall -std=${CxxVersion}
+	@echo Compiling...
+	@${CXX} ${F_SRC} ${CXX_FLAGS}
+	@echo Compiled successfully
 
-	@${Print} ${Msg_Compiled}
+install: ./bin/app
+	@${INSTALL}
 
-install: ${BinFolder}${BinName}
-	@${Print} ${Msg_Copying}
-	@sudo cp ${BinFolder}${BinName} /usr/bin/bfcxx
-	@${Print} ${Msg_Copied}
+clean:
+	@echo Cleaning...
+	@${CLEAN}
+	@echo Cleaned succesfully...
+
+all:
+	@echo compile - Compiles the source
+	@echo install - Copies the binary in /usr/bin !Linux only!
+	@echo clean - Removes built files
