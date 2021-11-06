@@ -1,7 +1,7 @@
 /*
  *  Brainfcxx - A C++ Brainfuck interpreter
- *  Version 1.2.0
- *  Github: https://github.com/LordOfTrident/cpp-brainfuck
+ *  Version 1.4.2
+ *  Github: https://github.com/LordOfTrident/brainfcxx
  *
  *  define BF_DONT_USE_EXCEPTIONS symbol for the library to
  *  use return codes instead of exceptions
@@ -169,6 +169,10 @@ namespace BF {
 			word p_cellCount = CellCountDefault,
 			ui8 P_cellSize = CellSizeUi8
 		):
+#ifdef BF_DONT_USE_EXCEPTIONS
+			m_errorMessage(""),
+			m_line(0),
+#endif // BF_DONT_USE_EXCEPTIONS
 			m_cellCount(p_cellCount),
 			m_cellSize(P_cellSize),
 			m_cellPointer(0),
@@ -516,15 +520,15 @@ namespace BF {
 #endif // BF_DONT_USE_BITSHIFT
 		};
 
+#ifdef BF_DONT_USE_EXCEPTIONS
+		std::string m_errorMessage;
+		word m_line;
+#endif // BF_DONT_USE_EXCEPTIONS
+
 		word m_cellCount;
 		ui8 m_cellSize;
 		word m_cellPointer;
 
 		std::vector <CellType> m_cells;
-
-#ifdef BF_DONT_USE_EXCEPTIONS
-		std::string m_errorMessage;
-		word m_line;
-#endif // BF_DONT_USE_EXCEPTIONS
 	}; // class Interpreter
 }; // namespace BF

@@ -26,8 +26,7 @@ CXX_FLAGS = \
 	-Wall\
 	-std=${CXX_VER}\
 	-I./src\
-	-I./\
-	-o ./bin/app
+	-I./
 
 # Config
 UTILS_USE_GNU_READLINE = false
@@ -39,13 +38,13 @@ ifeq (${OS}, Windows_NT)
 	BINARY = ./bin/app.exe
 else
 	UNAME_S := $(shell uname -s)
-    ifeq (${UNAME_S}, Linux)
-    	UTILS_USE_GNU_READLINE = true
-    endif
+	ifeq (${UNAME_S}, Linux)
+		UTILS_USE_GNU_READLINE = true
+	endif
 
-    ifeq (${UTILS_USE_GNU_READLINE}, true)
-    	CXX_FLAGS += -lreadline
-    endif
+	ifeq (${UTILS_USE_GNU_READLINE}, true)
+		CXX_FLAGS += -lreadline
+	endif
 
 	CREATE_BIN_DIRECTORY = mkdir -p ./bin
 	CLEAN = rm ./bin/app && rm /usr/bin/${N_APP}
@@ -55,6 +54,8 @@ else
 		echo Installed succesfully
 	BINARY = ./bin/app
 endif
+
+CXX_FLAGS += -o ${BINARY}
 
 compile: ${F_ALL}
 	@${CREATE_BIN_DIRECTORY}

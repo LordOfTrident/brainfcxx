@@ -6,7 +6,7 @@
 Utils::Input::Input() {
 #ifdef __UTILS_USING_READLINE__
 	readline::using_history();
-#endif//  __UTILS_USING_READLINE__
+#endif // __UTILS_USING_READLINE__
 };
 
 Utils::Input::~Input() {};
