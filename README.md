@@ -16,7 +16,7 @@
 	<br><br><br>
 </p>
 
-Brainfuck is a programming language created in 1993 by Urban Müller, you can read more on it [here](https://en.wikipedia.org/wiki/Brainfuck)
+Brainf+ck is a programming language created in 1993 by Urban Müller, you can read more on it [here](https://en.wikipedia.org/wiki/Brainfuck)
 
 ## Features
 - Changable cells count

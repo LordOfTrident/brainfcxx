@@ -1,16 +1,16 @@
 #include <app.hh>
 
 // public
-BF::App::App(word p_cellCount, ui8 p_cellSize):
+BF::App::App(usize p_cellCount, u8 p_cellSize):
 	m_bfi(p_cellCount, p_cellSize),
 	m_exitCode(Ok)
 {};
 
 BF::App::App(
-	const ui8 p_argc,
+	const u8 p_argc,
 	const char* p_argv[],
-	word p_cellCount,
-	ui8 p_cellSize
+	usize p_cellCount,
+	u8 p_cellSize
 ):
 	m_bfi(p_cellCount, p_cellSize),
 	m_exitCode(Ok)
@@ -24,11 +24,11 @@ BF::Interpreter &BF::App::GetBFi() {
 	return m_bfi;
 };
 
-ui8 BF::App::GetExitcode() const {
+u8 BF::App::GetExitcode() const {
 	return m_exitCode;
 };
 
-void BF::App::Start(const ui8 p_argc, const char* p_argv[]) {
+void BF::App::Start(const u8 p_argc, const char* p_argv[]) {
 	std::vector <std::string> files = {};
 
 	bool startRepl = true;
@@ -37,7 +37,7 @@ void BF::App::Start(const ui8 p_argc, const char* p_argv[]) {
 		startRepl = ReadParameters(p_argc, p_argv, files);
 	} catch (const BF::Exception &error) {
 		std::cerr
-			<< ERROR
+			<< "\nError:\n  "
 			<< error.What()
 			<< std::endl;
 	};
@@ -52,13 +52,13 @@ void BF::App::Start(const ui8 p_argc, const char* p_argv[]) {
 };
 
 bool BF::App::ReadParameters(
-	const ui8 p_argc,
+	const u8 p_argc,
 	const char* p_argv[],
 	std::vector <std::string> &p_files
 ) {
 	bool startRepl = true;
 
-	for (ui8 i = 1; i < p_argc; ++ i) {
+	for (u8 i = 1; i < p_argc; ++ i) {
 		std::string arg = p_argv[i];
 
 		switch (arg[0]) {
@@ -84,12 +84,6 @@ bool BF::App::ReadParameters(
 						<< BF_VERSION_MINOR
 						<< "."
 						<< BF_VERSION_PATCH
-						<< "\nApp version "
-						<< APP_VERSION_MAJOR
-						<< "."
-						<< APP_VERSION_MINOR
-						<< "."
-						<< APP_VERSION_PATCH
 						<< std::endl;
 
 					startRepl = false;
@@ -122,8 +116,7 @@ bool BF::App::ReadParameters(
 						m_bfi.SetCellSize(std::stoi(arg));
 					} catch (const BF::InvalidDataException &error) {
 						std::cerr
-							<< WARN
-							<< "Cell size can only be 1, 2 or 4;"
+							<< "\nWarning:\n  Cell size can only be 1, 2 or 4;"
 							<< "anything else is taken as 4\n"
 							<< "(got "
 							<< error.What()
@@ -151,13 +144,13 @@ bool BF::App::ReadParameters(
 
 void BF::App::Repl() {
 	std::cout
-		<< "Brainfcxx REPL v"
-		<< APP_VERSION_MAJOR
+		<< "Brainfcxx v"
+		<< BF_VERSION_MAJOR
 		<< "."
-		<< APP_VERSION_MINOR
+		<< BF_VERSION_MINOR
 		<< "."
-		<< APP_VERSION_PATCH
-		<< ", type in help to see the commands\n";
+		<< BF_VERSION_PATCH
+		<< " REPL, type in help to see the commands\n";
 
 	Utils::Input inputHandle;
 
@@ -190,16 +183,16 @@ void BF::App::Repl() {
 				m_bfi.Interpret(input);
 			} catch (const BF::RuntimeException &error) {
 				std::cerr
-					<< ERROR
-					<< "At line " << error.Line()
-					<< ", position " << error.Position()
-					<< ":\n  " << error.What()
+					<< "\nREPL:" << error.Line()
+					<< ":" << error.Col()
+					<< ": error:\n  "
+					<< error.What()
 					<< std::endl;
 
 				m_exitCode = RuntimeError;
 			} catch (const BF::InvalidDataException &error) {
 				std::cerr
-					<< ERROR
+					<< "\nREPL: error:\n  "
 					<< error.What()
 					<< "\nData value:\n"
 					<< error.Data()
@@ -208,7 +201,7 @@ void BF::App::Repl() {
 				m_exitCode = InvalidDataError;
 			} catch (const BF::Exception &error) {
 				std::cerr
-					<< ERROR
+					<< "\nREPL: error:\n  "
 					<< error.What()
 					<< std::endl;
 
@@ -227,7 +220,7 @@ void BF::App::InterpretFiles(const std::vector <std::string> &p_files) {
 	for (const std::string& file : p_files) {
 		if (not FileExists(file)) {
 			std::cerr
-				<< ERROR
+				<< "\nerror:\n  "
 				<< "File '"
 				<< file
 				<< "' not found"
@@ -241,16 +234,19 @@ void BF::App::InterpretFiles(const std::vector <std::string> &p_files) {
 			m_bfi.Interpret(ReadFile(file));
 		} catch (const BF::RuntimeException &error) {
 			std::cerr
-				<< ERROR
-				<< "At line " << error.Line()
-				<< ", position " << error.Position()
-				<< ":\n  " << error.What();
+				<< "\n" << file
+				<< ":" << error.Line()
+				<< ":" << error.Col()
+				<< ": error:\n  "
+				<< error.What()
+				<< std::endl;
 
 			m_exitCode = RuntimeError;
 			return;
 		} catch (const BF::InvalidDataException &error) {
 			std::cerr
-				<< ERROR
+				<< "\n" << file
+				<< ": error:\n  "
 				<< error.What()
 				<< "\nData value:\n"
 				<< error.Data()
@@ -260,7 +256,8 @@ void BF::App::InterpretFiles(const std::vector <std::string> &p_files) {
 			return;
 		} catch (const BF::Exception &error) {
 			std::cerr
-				<< ERROR
+				<< "\n" << file
+				<< ": error:\n  "
 				<< error.What()
 				<< "\n";
 

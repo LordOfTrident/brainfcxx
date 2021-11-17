@@ -5,7 +5,7 @@ int main(const int argc, const char* argv[]) {
 		argc,
 		argv,
 		BF::Interpreter::CellCountDefault,
-		BF::Interpreter::CellSizeUi8
+		BF::Interpreter::CellSize8b
 	);
 
 	return app.GetExitcode();

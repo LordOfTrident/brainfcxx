@@ -11,8 +11,4 @@ All the versions and the changes they bring
 - `1.3.1`: Removed const reference from integer parameters
 - `1.4.1`: README.md changes, replaced compile with makefile
 - `1.4.2`: New logo, updated makefile
-
-## App (The interpreter program)
-- `1.0.0`: Working simple interpreter program
-- `1.1.5`: Entire rewrite
-- `1.2.1`: Added constexpr, platform detection and readline
+- `1.5.0`: Improved the app, removed no exceptions mode (it was only causing trouble)

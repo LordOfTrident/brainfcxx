@@ -51,7 +51,7 @@ else
 	INSTALL = \
 		echo Installing... &&\
 		cp ./bin/app /usr/bin/${N_APP} &&\
-		echo Installed succesfully
+		echo Installed successfully
 	BINARY = ./bin/app
 endif
 
@@ -71,7 +71,7 @@ install: ${BINARY}
 clean:
 	@echo Cleaning...
 	@${CLEAN}
-	@echo Cleaned succesfully...
+	@echo Cleaned successfully
 
 all:
 	@echo compile - Compiles the source
