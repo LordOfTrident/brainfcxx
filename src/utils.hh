@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UTILS_HH_HEADER_GUARD__
+#define __UTILS_HH_HEADER_GUARD__
 
 #include <components.inc>
 #include <types.hh>
@@ -34,3 +35,5 @@ namespace Utils {
 		) const;
 	}; // class Input
 }; // namespace Utils
+
+#endif // __UTILS_HH_HEADER_GUARD__

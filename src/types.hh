@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __TYPES_HH_HEADER_GUARD__
+#define __TYPES_HH_HEADER_GUARD__
 
 #include <brainfcxx.hh> // BF::Interpreter, BF::Exception, BF::word,
                         // BF::i8, BF::i16, BF::i32, BF::i64,
@@ -15,3 +16,5 @@ using BF::s32;
 using BF::s64;
 
 using BF::usize;
+
+#endif // __TYPES_HH_HEADER_GUARD__

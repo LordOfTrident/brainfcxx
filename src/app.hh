@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __APP_HH_HEADER_GUARD__
+#define __APP_HH_HEADER_GUARD__
 
 #include <config.inc>
 
@@ -54,3 +55,5 @@ namespace BF {
 		usize m_exitCode;
 	}; // class App
 }; // namespace BF
+
+#endif // __APP_HH_HEADER_GUARD__

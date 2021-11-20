@@ -15,7 +15,8 @@
  *  when the cell size is set to 1 byte, unlike the union.
  */
 
-#pragma once
+#ifndef __BRAINFCXX_HH_HEADER_GUARD__
+#define __BRAINFCXX_HH_HEADER_GUARD__
 
 #include <iostream> // std::cout, std::cerr, std::cin, noskipws
 #include <string> // std::string
@@ -26,8 +27,8 @@
 #include <climits> // ULONG_MAX
 
 #define BF_VERSION_MAJOR 1
-#define BF_VERSION_MINOR 4
-#define BF_VERSION_PATCH 2
+#define BF_VERSION_MINOR 5
+#define BF_VERSION_PATCH 1
 
 namespace BF {
 	typedef std::int8_t  s8;
@@ -442,15 +443,15 @@ namespace BF {
 				break;
 
 			case CellSize16b:
-				m_cells[pos] =     static_cast<u8>((p_value & 0xFF00) >> 8);
+				m_cells[pos] =     static_cast<u8>((p_value & 0xFF00) >> 010);
 				m_cells[pos + 1] = static_cast<u8> (p_value & 0x00FF);
 
 				break;
 
 			case CellSize32b:
-				m_cells[pos] =     static_cast<u8>((p_value & 0xFF000000) >> 24);
-				m_cells[pos + 1] = static_cast<u8>((p_value & 0x00FF0000) >> 16);
-				m_cells[pos + 2] = static_cast<u8>((p_value & 0x0000FF00) >> 8);
+				m_cells[pos] =     static_cast<u8>((p_value & 0xFF000000) >> 030);
+				m_cells[pos + 1] = static_cast<u8>((p_value & 0x00FF0000) >> 020);
+				m_cells[pos + 2] = static_cast<u8>((p_value & 0x0000FF00) >> 010);
 				m_cells[pos + 3] = static_cast<u8> (p_value & 0x000000FF);
 
 				break;
@@ -468,3 +469,5 @@ namespace BF {
 		std::vector <CellType> m_cells;
 	}; // class Interpreter
 }; // namespace BF
+
+#endif // __BRAINFCXX_HH_HEADER_GUARD__
