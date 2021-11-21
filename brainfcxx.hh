@@ -1,6 +1,6 @@
 /*
  *  Brainfcxx - A C++ Brainfuck interpreter
- *  Version 1.4.2
+ *  Version 1.5.2
  *  Github: https://github.com/LordOfTrident/brainfcxx
  *
  *  define BF_DONT_USE_BITSHIFT for the library to use
