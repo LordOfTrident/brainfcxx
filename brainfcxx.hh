@@ -28,7 +28,7 @@
 
 #define BF_VERSION_MAJOR 1
 #define BF_VERSION_MINOR 5
-#define BF_VERSION_PATCH 1
+#define BF_VERSION_PATCH 2
 
 namespace BF {
 	typedef std::int8_t  s8;
