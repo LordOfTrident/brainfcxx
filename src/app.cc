@@ -150,7 +150,7 @@ void BF::App::Repl() {
 		<< BF_VERSION_MINOR
 		<< "."
 		<< BF_VERSION_PATCH
-		<< " REPL, type in help to see the commands\n";
+		<< " REPL\ntype in help to see the commands\n";
 
 	Utils::Input inputHandle;
 
