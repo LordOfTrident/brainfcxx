@@ -25,7 +25,7 @@ namespace BF {
 
 		App(
 			const u8 p_argc,
-			const char* p_argv[],
+			const char *p_argv[],
 			usize p_cellCount = BF::Interpreter::CellCountDefault,
 			u8 p_cellSize = BF::Interpreter::CellSize8b
 		);
@@ -36,7 +36,7 @@ namespace BF {
 
 		u8 GetExitcode() const;
 
-		void Start(const u8 p_argc, const char* p_argv[]);
+		void Start(const u8 p_argc, const char *p_argv[]);
 		void Repl(); // Read Eval Print Loop
 		void InterpretFiles(const std::vector <std::string> &p_files);
 

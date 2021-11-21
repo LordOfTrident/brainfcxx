@@ -8,7 +8,7 @@ BF::App::App(usize p_cellCount, u8 p_cellSize):
 
 BF::App::App(
 	const u8 p_argc,
-	const char* p_argv[],
+	const char *p_argv[],
 	usize p_cellCount,
 	u8 p_cellSize
 ):
@@ -28,7 +28,7 @@ u8 BF::App::GetExitcode() const {
 	return m_exitCode;
 };
 
-void BF::App::Start(const u8 p_argc, const char* p_argv[]) {
+void BF::App::Start(const u8 p_argc, const char *p_argv[]) {
 	std::vector <std::string> files = {};
 
 	bool startRepl = true;
@@ -67,7 +67,7 @@ bool BF::App::ReadParameters(
 
 				if (arg == "h" or arg == "-help") {
 					std::cout
-						<< "Usage: app [Options]"
+						<< "Usage: app [Options]\n"
 						<< "Options:\n"
 						<< "    -h, --help      Show the usage\n"
 						<< "    -v  --version   Show the current version\n"
