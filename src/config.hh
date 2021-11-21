@@ -1,5 +1,5 @@
-#ifndef __CONFIG_INC_HEADER_GUARD__
-#define __CONFIG_INC_HEADER_GUARD__
+#ifndef __CONFIG_HH_HEADER_GUARD__
+#define __CONFIG_HH_HEADER_GUARD__
 
 //#define BF_DONT_USE_BITSHIFT // Use a union instead of
                                // bit shifting in BF
@@ -15,4 +15,4 @@
  *  readline/readline.h
  */
 
-#endif // __CONFIG_INC_HEADER_GUARD__
+#endif // __CONFIG_HH_HEADER_GUARD__

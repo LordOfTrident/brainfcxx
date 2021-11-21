@@ -12,9 +12,9 @@ F_HEADER = \
 	src/app.hh\
 	src/utils.hh\
 	src/types.hh\
-	src/components.inc\
-	src/platform.inc\
-	src/config.inc
+	src/components.hh\
+	src/platform.hh\
+	src/config.hh
 
 F_ALL = ${F_SRC} ${F_HEADER}
 

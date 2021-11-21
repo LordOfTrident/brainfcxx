@@ -1,5 +1,5 @@
-#ifndef __COMPONENTS_INC_HEADER_GUARD__
-#define __COMPONENTS_INC_HEADER_GUARD__
+#ifndef __COMPONENTS_HH_HEADER_GUARD__
+#define __COMPONENTS_HH_HEADER_GUARD__
 
 #include <iostream> // std::cout, std::cerr, std::cin
 #include <fstream> // std::ofstream, std::ifstream
@@ -9,4 +9,4 @@
                         // BF::i8, BF::i16, BF::i32, BF::i64,
                         // BF::ui8, BF::ui16, BF::ui32, BF::ui64
 
-#endif // __COMPONENTS_INC_HEADER_GUARD__
+#endif // __COMPONENTS_HH_HEADER_GUARD__

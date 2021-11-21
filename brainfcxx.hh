@@ -1,6 +1,6 @@
 /*
  *  Brainfcxx - A C++ Brainfuck interpreter
- *  Version 1.5.2
+ *  Version 1.5.3
  *  Github: https://github.com/LordOfTrident/brainfcxx
  *
  *  define BF_DONT_USE_BITSHIFT for the library to use
@@ -28,7 +28,7 @@
 
 #define BF_VERSION_MAJOR 1
 #define BF_VERSION_MINOR 5
-#define BF_VERSION_PATCH 2
+#define BF_VERSION_PATCH 3
 
 namespace BF {
 	typedef std::int8_t  s8;
