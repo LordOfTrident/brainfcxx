@@ -10,8 +10,8 @@
 #if defined(PLATFORM_LINUX) and defined(UTILS_USE_GNU_READLINE)
 #	define __UTILS_USING_READLINE__
 namespace readline {
-#	include <readline/readline.h>
-#	include <readline/history.h>
+#	include <readline/readline.h> // readline
+#	include <readline/history.h> // add_history, using_history
 };
 #endif
 
