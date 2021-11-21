@@ -13,3 +13,4 @@ All the versions and the changes they bring
 - `1.4.2`: New logo, updated makefile
 - `1.5.0`: Improved the app, removed no exceptions mode (it was only causing trouble)
 - `1.5.1`: Switched from pragma once to header guards
+- `1.5.2`: Exchanged <> for "" in include paths

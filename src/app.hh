@@ -1,11 +1,11 @@
 #ifndef __APP_HH_HEADER_GUARD__
 #define __APP_HH_HEADER_GUARD__
 
-#include <config.inc>
+#include "config.inc"
 
-#include <components.inc>
-#include <types.hh>
-#include <utils.hh>
+#include "components.inc"
+#include "types.hh"
+#include "utils.hh"
 
 namespace BF {
 	class App {
